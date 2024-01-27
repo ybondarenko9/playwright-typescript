@@ -15,6 +15,7 @@ export class HomePage extends BasePage {
         await test.step(" Click Sign In button", async () =>
             this.signInButton.click());
     }
+
     async goToSignUp() {
         await test.step(" Click Sign Up button", async () =>
             this.signUpButton.click());

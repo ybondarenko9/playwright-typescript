@@ -1,5 +1,4 @@
-import {expect, type Locator, type Page, test} from '@playwright/test';
-import {allure} from "allure-playwright";
+import {type Locator, type Page, test} from '@playwright/test';
 import {BasePage} from "./base-page";
 
 export class SignInPage extends BasePage {
