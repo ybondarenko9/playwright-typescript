@@ -1,13 +1,9 @@
-FROM node:20-bookworm
+FROM mcr.microsoft.com/playwright:v1.41.1-jammy
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
-
-RUN npx -y playwright@1.41.1 install --with-deps
-
 COPY . .
 
-CMD ["npm", "run", "test"]
+CMD ["npx", "playwright", "test"]

@@ -40,11 +40,11 @@ npm run open:allure-report
 ## Docker 
 - To run tests in docker containers, install docker and use the below commands to compose the docker image from the docker file;
 ```bash
-docker build -t {give image name} .   
+docker build -t {image name} .   
 ```
 - To create the container and launch it use:
 ```bash
-docker run -it -d {same image name as in the previous command}
+docker run -it -d {image name}
 ```
 - Check the container is up and running; copy the container id
 ```bash
@@ -54,7 +54,7 @@ docker ps -a
 ```bash
 docker exec -it {container id} bash
 ```
-- Run the commands as per need in the docker bash;
+- Run tests from the docker bash if needed;
 ```bash
 npm run test
 ```
