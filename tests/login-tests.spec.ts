@@ -2,11 +2,12 @@ import {expect, test} from '@playwright/test';
 import {SignInPage} from "../pages/sign-in-page";
 import {HomePage} from "../pages/home-page";
 import {errorMessages, testData} from "./testData";
-import {generateRandomString} from "../utils/random-utils";
 import {SignUpPage} from "../pages/sign-up-page";
+import {faker} from '@faker-js/faker';
 
-const randomEmail = generateRandomString(3, 10) + '@example.com';
-const randomPassword = generateRandomString(5, 15)
+
+const randomEmail = faker.internet.email();
+const randomPassword = faker.internet.password()
 
 let homePage: HomePage
 let signInPage: SignInPage
@@ -20,16 +21,17 @@ test.beforeEach(async ({page}) => {
 });
 
 test.describe.parallel("Sign in tests", () => {
+    test.beforeEach(async () => {
+        await homePage.goToSignIn()
+    })
 
     test('Verify login with correct credentials', async ({page}) => {
-        await homePage.goToSignIn()
         await signInPage.loginWithCredentials(testData.username, testData.password)
         await expect(page).toHaveTitle(/Candidate/)
         await expect(page.getByRole("link", {name: testData.username}),).toBeVisible()
     })
 
     test('Verify incorrect login attempts', async () => {
-        await homePage.goToSignIn()
         await signInPage.loginWithCredentials("", "")
         await signInPage.verifyErrorMessage(errorMessages.EMAIL_REQUIRED_MSG)
         await signInPage.verifyErrorMessage(errorMessages.PASSWORD_REQUIRED_MSG)
@@ -41,17 +43,17 @@ test.describe.parallel("Sign in tests", () => {
 })
 
 test.describe.parallel("Sign up tests", () => {
+    test.beforeEach(async () => {
+        await homePage.goToSignUp()
+    })
     test('Verify registration with correct credentials',
         async ({page}) => {
-            const password = randomPassword
-            await homePage.goToSignUp()
-            await signUpPage.signUpWithCredentials(randomEmail, password, password)
+            await signUpPage.signUpWithCredentials(randomEmail, randomPassword, randomPassword)
             await expect(page).toHaveTitle(/Choose-profile/)
             await expect(page.getByText("I Am...")).toBeVisible()
         })
 
-    test('Verify incorrect registration attempts', async ({page}) => {
-        await homePage.goToSignUp()
+    test('Verify incorrect registration attempts', async () => {
         await signUpPage.signUpWithCredentials(testData.username, randomPassword, randomPassword)
         await signUpPage.verifyErrorMessage(errorMessages.EMAIL_TAKEN_MSG)
         await signUpPage.signUpWithCredentials(randomPassword, randomPassword, randomPassword)

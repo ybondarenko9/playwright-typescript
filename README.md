@@ -11,7 +11,7 @@
 Prerequisites:
 Node.js 14(or above) and Java 8 (or above)
 
-- Clone the repo using the below URL
+- Clone the repo using URL
   https://github.com/ybondarenko9/playwright-typescript.git
 - Navigate to the folder and install npm packages using:
 
